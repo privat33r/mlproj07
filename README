@@ -1,0 +1,19 @@
+Project 7 - Yixin Ye
+Neural Network Regression
+
+index:
+1) covid19.py - training/testing algorithm
+2) predict.py - attempt at obtaining predictions from model
+3) covid_model.pickle - saved model with best testloss
+4) sample.txt - sample input row for Anne Arundel County, 15Apr20
+5) output.txt - output from running covid19.py
+
+From first obtaining 'nan' for my training and test loss, I was able to bring it down to 275.
+A lot of time was spent trying to troubleshoot the 'nan' issue which I first suspected was due to gradient explosion.
+Explored techniques like normalizing the data, using different activation functions (LeakyReLU, PReLU), gradient clipping.
+Later realized this was caused by 'nan' values in my input array (x). This was done by replacing them with the mean value of that column.
+Cleaning up data from the dataset also took some time since some of the ratios have trailing ':0's that would run into problems when converting it to a float.
+
+I ran out of time before being able to implement for ambitious things such as data augmentation by adding Gaussian noise. Read up on the transform modules on torch.
+
+Although I was able to store my best model, I am unable to predict the two output values by inputting a sample datapoint. I had to normalize my sample datapoint with the rest of the dataset in order for it to be consistent and compatible with the model but ran into issues with "expected backend CPU instead of GPU".
