@@ -25,6 +25,14 @@ def buildData(filename):
 
 #changing the way dates are represented, year is not considered here
   data['month'] = data['date']
+
+  data = data[['FIPS','% Fair or Poor Health','Average Number of Physically Unhealthy Days','Average Number of Mentally Unhealthy Days','% Low Birthweight','% Smokers','% Adults with Obesity','Food Environment Index','% Physically Inactive','% With Access to Exercise Opportunities',
+'% Excessive Drinking','% Driving Deaths with Alcohol Involvement','Chlamydia Rate','Teen Birth Rate','% Uninsured','Primary Care Physicians Ratio','Dentist Ratio','Mental Health Provider Ratio',
+'Preventable Hospitalization Rate','% With Annual Mammogram','% Flu Vaccinated','High School Graduation Rate','% Some College','% Unemployed','% Children in Poverty',
+'Income Ratio','% Single-Parent Households','Social Association Rate','Violent Crime Rate','Injury Death Rate','Average Daily PM2.5','Presence of Water Violation','% Severe Housing Problems','% Drive Alone to Work',
+'% Long Commute - Drives Alone','Population','Density per square mile of land area - Population','date','month','logDCases','logDDeaths','% Increase D-2 Cases','% Increase D-2 Deaths','% Increase D-4 Cases',
+'% Increase D-4 Deaths','Days under SAH','log D+14 Cases','log D+14 Deaths']]
+
   for i, row in data.iterrows():
     l = row['month'].split('-')
     data.at[i,'month'] = int(l[1])
@@ -61,6 +69,10 @@ def buildData(filename):
   y=data.to_numpy()[:,-2:]
   N,D_in=x.shape
   y=np.reshape(y,(N,2)) #needs to be Nx1, not just of length N
+
+# # This is to add noise but it didn't help bring down the test loss.
+#   noise = np.random.normal(0, 0.1, [x.shape[0],x.shape[1]])
+#   x = x + noise
 
 #code to find NaNs in the input array
   # print((x_train != x_train).any())
@@ -151,6 +163,7 @@ try: # if another model exists
   saved_min_testloss = checkpoint['testloss'].item()
   print("Earlier model found, saved mininum test loss:",saved_min_testloss)
 except:
+  saved_min_testloss = float("inf")
   print("Earlier model not found.")
 
 # Early stop variable init
